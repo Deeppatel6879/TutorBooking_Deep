@@ -1,0 +1,127 @@
+﻿@model TutorBooking.Models.Tutor
+
+@{
+    ViewData["Title"] = "Create Tutor";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h2>Add Tutor</h2>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger">
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Name"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Name"
+                           class="form-control" />
+
+                    <span asp-validation-for="Name"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Email"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="Email"
+                           class="form-control" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Bio"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Bio"
+                              class="form-control"
+                              rows="4">
+                    </textarea>
+
+                    <span asp-validation-for="Bio"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="SubjectId"
+                           class="form-label">
+                        Subject
+                    </label>
+
+                    <select asp-for="SubjectId"
+                            asp-items="ViewBag.SubjectList"
+                            class="form-select">
+
+                        <option disabled selected>
+                            -- Select Subject --
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="SubjectId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="form-check mb-3">
+
+                    <input asp-for="IsAvailable"
+                           class="form-check-input" />
+
+                    <label asp-for="IsAvailable"
+                           class="form-check-label">
+                        Tutor is currently available
+                    </label>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Create Tutor
+                </button>
+
+                <a asp-controller="Tutor"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,238 @@
+﻿@model IEnumerable<TutorBooking.Models.Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<div class="container mt-4">
+
+    <div class="row mb-3">
+
+        <div class="col-6">
+
+            @if (User.IsInRole("Tutor"))
+            {
+                <h2>My Tutor Bookings</h2>
+            }
+            else if (User.IsInRole("Student"))
+            {
+                <h2>My Bookings</h2>
+            }
+            else
+            {
+                <h2>All Bookings</h2>
+            }
+
+        </div>
+
+        <div class="col-6 text-end">
+
+            @if (User.IsInRole("Student"))
+            {
+                <a asp-controller="Booking"
+                   asp-action="Create"
+                   class="btn btn-primary">
+                    Book a Tutor
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["success"]
+        </div>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No bookings were found.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+
+            <thead>
+
+                <tr>
+                    <th>Student</th>
+                    <th>Tutor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var booking in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @booking.StudentName
+                        </td>
+
+                        <td>
+                            @(booking.Tutor?.Name ?? "Not Assigned")
+                        </td>
+
+                        <td>
+                            @booking.BookingDate.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>
+                            @booking.BookingTime.ToString(@"hh\:mm")
+                        </td>
+
+                        <td>
+
+                            @if (booking.Status == "Pending")
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+                            }
+                            else if (booking.Status == "Accepted")
+                            {
+                                <span class="badge bg-success">
+                                    Accepted
+                                </span>
+                            }
+                            else if (booking.Status == "Cancelled")
+                            {
+                                <span class="badge bg-danger">
+                                    Cancelled
+                                </span>
+                            }
+                            else if (booking.Status == "Completed")
+                            {
+                                <span class="badge bg-primary">
+                                    Completed
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">
+                                    @booking.Status
+                                </span>
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            @* STUDENT BUTTONS *@
+
+                            @if (User.IsInRole("Student"))
+                            {
+                                @if (booking.Status == "Pending")
+                                {
+                                    <a asp-controller="Booking"
+                                       asp-action="Edit"
+                                       asp-route-id="@booking.BookingId"
+                                       class="btn btn-warning btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-controller="Booking"
+                                       asp-action="Delete"
+                                       asp-route-id="@booking.BookingId"
+                                       class="btn btn-danger btn-sm">
+                                        Cancel
+                                    </a>
+                                }
+                            }
+
+
+                            @* TUTOR BUTTONS *@
+
+                            @if (User.IsInRole("Tutor"))
+                            {
+                                @if (booking.Status == "Pending")
+                                {
+                                    <form asp-controller="Booking"
+                                          asp-action="Accept"
+                                          asp-route-id="@booking.BookingId"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-success btn-sm">
+                                            Accept
+                                        </button>
+
+                                    </form>
+
+                                    <form asp-controller="Booking"
+                                          asp-action="Cancel"
+                                          asp-route-id="@booking.BookingId"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm">
+                                            Reject
+                                        </button>
+
+                                    </form>
+                                }
+
+                                @if (booking.Status == "Accepted")
+                                {
+                                    <form asp-controller="Booking"
+                                          asp-action="Complete"
+                                          asp-route-id="@booking.BookingId"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-primary btn-sm">
+                                            Complete
+                                        </button>
+
+                                    </form>
+                                }
+                            }
+
+
+                            @* ADMIN BUTTONS *@
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Booking"
+                                   asp-action="Edit"
+                                   asp-route-id="@booking.BookingId"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <a asp-controller="Booking"
+                                   asp-action="Delete"
+                                   asp-route-id="@booking.BookingId"
+                                   class="btn btn-danger btn-sm">
+                                    Delete
+                                </a>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+
+</div>

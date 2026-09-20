@@ -1,0 +1,169 @@
+﻿@model TutorBooking.Models.Booking
+
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h2>Edit Booking</h2>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                <input asp-for="BookingId" type="hidden" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger">
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="StudentName"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="StudentName"
+                           class="form-control" />
+
+                    <span asp-validation-for="StudentName"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="StudentEmail"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="StudentEmail"
+                           class="form-control" />
+
+                    <span asp-validation-for="StudentEmail"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="TutorId"
+                           class="form-label">
+                        Tutor
+                    </label>
+
+                    <select asp-for="TutorId"
+                            asp-items="ViewBag.TutorList"
+                            class="form-select">
+                    </select>
+
+                    <span asp-validation-for="TutorId"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="BookingDate"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="BookingDate"
+                           class="form-control"
+                           type="date" />
+
+                    <span asp-validation-for="BookingDate"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="BookingTime"
+                           class="form-label">
+                    </label>
+
+                    <input asp-for="BookingTime"
+                           class="form-control"
+                           type="time" />
+
+                    <span asp-validation-for="BookingTime"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Notes"
+                           class="form-label">
+                    </label>
+
+                    <textarea asp-for="Notes"
+                              class="form-control"
+                              rows="4">
+                    </textarea>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label asp-for="Status"
+                           class="form-label">
+                    </label>
+
+                    <select asp-for="Status"
+                            class="form-select">
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Accepted">
+                            Accepted
+                        </option>
+
+                        <option value="Cancelled">
+                            Cancelled
+                        </option>
+
+                        <option value="Completed">
+                            Completed
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Update Booking
+                </button>
+
+                <a asp-controller="Booking"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

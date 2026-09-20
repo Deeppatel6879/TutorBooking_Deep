@@ -1,0 +1,108 @@
+﻿@model IEnumerable<TutorBooking.Models.Tutor>
+
+@{
+    ViewData["Title"] = "Tutors";
+}
+
+<div class="container mt-4">
+
+    <div class="row mb-3">
+
+        <div class="col-6">
+            <h2>Tutor List</h2>
+        </div>
+
+        <div class="col-6 text-end">
+
+            <a asp-controller="Tutor"
+               asp-action="Create"
+               class="btn btn-primary">
+                Add New Tutor
+            </a>
+
+        </div>
+
+    </div>
+
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["success"]
+        </div>
+    }
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Available</th>
+                <th>Actions</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var tutor in Model)
+            {
+                <tr>
+
+                    <td>
+                        @tutor.Name
+                    </td>
+
+                    <td>
+                        @tutor.Email
+                    </td>
+
+                    <td>
+                        @tutor.Subject.Name
+                    </td>
+
+                    <td>
+
+                        @if (tutor.IsAvailable)
+                        {
+                            <span class="badge bg-success">
+                                Available
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                Unavailable
+                            </span>
+                        }
+
+                    </td>
+
+                    <td>
+
+                        <a asp-controller="Tutor"
+                           asp-action="Edit"
+                           asp-route-id="@tutor.TutorId"
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a asp-controller="Tutor"
+                           asp-action="Delete"
+                           asp-route-id="@tutor.TutorId"
+                           class="btn btn-danger btn-sm">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
